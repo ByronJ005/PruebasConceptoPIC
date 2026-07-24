@@ -1,10 +1,18 @@
 <template>
   <div class="auth-container">
-    <div class="auth-card">
-      <h2>Iniciar Sesión</h2>
-      <p class="subtitle">Terminal Terrestre de Loja</p>
-      
-      <form @submit.prevent="handleLogin" class="auth-form">
+    <div class="auth-layout">
+      <div class="auth-image">
+        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800&auto=format&fit=crop" alt="Viaje desde Loja" />
+        <div class="auth-image-overlay">
+          <h3>Comienza tu aventura</h3>
+          <p>Conecta con los mejores destinos desde Loja</p>
+        </div>
+      </div>
+      <div class="auth-card">
+        <h2>Iniciar Sesión</h2>
+        <p class="subtitle">Terminal Terrestre de Loja</p>
+
+        <form @submit.prevent="handleLogin" class="auth-form">
         <div class="form-group">
           <label for="email">Correo Electrónico</label>
           <input 
@@ -35,15 +43,16 @@
 
         <div v-if="errorMessage" class="alert error-alert">{{ errorMessage }}</div>
 
-        <button type="submit" :disabled="isLoading" class="btn-primary">
-          <span v-if="isLoading">Cargando...</span>
-          <span v-else>Ingresar</span>
-        </button>
-      </form>
+          <button type="submit" :disabled="isLoading" class="btn-primary">
+            <span v-if="isLoading">Cargando...</span>
+            <span v-else>Ingresar</span>
+          </button>
+        </form>
 
-      <p class="auth-footer">
-        ¿No tienes cuenta? <router-link to="/register">Regístrate aquí</router-link>
-      </p>
+        <p class="auth-footer">
+          ¿No tienes cuenta? <router-link to="/register">Regístrate aquí</router-link>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -78,7 +87,7 @@ const handleLogin = async () => {
   });
 
   if (!validation.success) {
-    validation.error.errors.forEach((err) => {
+    validation.error.issues.forEach((err: any) => {
       if (err.path[0] === 'email') errors.value.email = err.message;
       if (err.path[0] === 'password') errors.value.password = err.message;
     });
@@ -111,16 +120,69 @@ const handleLogin = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
+  min-height: 100vh;
+  padding: 1rem;
   font-family: 'Inter', sans-serif;
+  background-color: #f3f4f6;
 }
-.auth-card {
+
+.auth-layout {
+  display: flex;
   background: white;
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   width: 100%;
-  max-width: 420px;
+  max-width: 900px;
+}
+
+.auth-image {
+  display: none;
+  position: relative;
+  width: 50%;
+}
+
+@media (min-width: 768px) {
+  .auth-image {
+    display: block;
+  }
+}
+
+.auth-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.auth-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  color: white;
+}
+
+.auth-image-overlay h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+}
+
+.auth-image-overlay p {
+  margin: 0;
+  color: #e2e8f0;
+}
+
+.auth-card {
+  padding: 3rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .auth-card {
+    width: 50%;
+  }
 }
 h2 {
   margin: 0 0 0.25rem 0;
@@ -158,7 +220,8 @@ input {
 }
 input:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
 }
 input.has-error {
   border-color: #ef4444;
@@ -173,8 +236,9 @@ input.has-error {
 }
 .forgot-link {
   font-size: 0.8125rem;
-  color: #3b82f6;
+  color: #0ea5e9;
   text-decoration: none;
+  font-weight: 500;
 }
 .forgot-link:hover {
   text-decoration: underline;
@@ -190,7 +254,7 @@ input.has-error {
   border: 1px solid #fca5a5;
 }
 .btn-primary {
-  background: #3b82f6;
+  background: #0ea5e9;
   color: white;
   padding: 0.875rem;
   border: none;
@@ -198,14 +262,16 @@ input.has-error {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
 .btn-primary:hover {
-  background: #2563eb;
+  background: #0284c7;
+  transform: translateY(-1px);
 }
 .btn-primary:disabled {
-  background: #93c5fd;
+  background: #7dd3fc;
   cursor: not-allowed;
+  transform: none;
 }
 .auth-footer {
   text-align: center;
@@ -214,9 +280,9 @@ input.has-error {
   margin-top: 1.5rem;
 }
 .auth-footer a {
-  color: #3b82f6;
+  color: #0ea5e9;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 .auth-footer a:hover {
   text-decoration: underline;

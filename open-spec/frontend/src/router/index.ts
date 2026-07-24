@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '../stores/useAuthStore'
 
 const Home = () => import('../pages/home.vue')
+const LandingPage = () => import('../pages/LandingPage.vue')
 const Login = () => import('../pages/auth/login.vue')
 const Register = () => import('../pages/auth/register.vue')
 const ForgotPassword = () => import('../pages/auth/forgot-password.vue')
@@ -12,6 +13,11 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'landing',
+      component: LandingPage
+    },
+    {
+      path: '/dashboard',
       name: 'home',
       component: Home,
       meta: { requiresAuth: true }

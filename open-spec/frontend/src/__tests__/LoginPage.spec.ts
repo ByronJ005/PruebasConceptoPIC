@@ -38,14 +38,14 @@ describe('LoginPage Component', () => {
   });
 
   it('calls loginUser and redirects on success', async () => {
-    const mockLoginUser = vi.fn().mockResolvedValueOnce({});
+    const mockLoginUser = vi.fn<any>().mockResolvedValueOnce({});
     vi.spyOn(authComposable, 'useAuth').mockReturnValue({
       user: {} as any,
       accessToken: {} as any,
       isAuthenticated: {} as any,
-      loginUser: mockLoginUser,
-      logoutUser: vi.fn(),
-      registerUser: vi.fn(),
+      loginUser: mockLoginUser as any,
+      logoutUser: vi.fn<any>() as any,
+      registerUser: vi.fn<any>() as any,
     });
 
     const pushSpy = vi.spyOn(router, 'push');
@@ -68,16 +68,16 @@ describe('LoginPage Component', () => {
   });
 
   it('shows api credentials error on 401', async () => {
-    const mockLoginUser = vi.fn().mockRejectedValueOnce({
+    const mockLoginUser = vi.fn<any>().mockRejectedValueOnce({
       response: { status: 401 }
     });
     vi.spyOn(authComposable, 'useAuth').mockReturnValue({
       user: {} as any,
       accessToken: {} as any,
       isAuthenticated: {} as any,
-      loginUser: mockLoginUser,
-      logoutUser: vi.fn(),
-      registerUser: vi.fn(),
+      loginUser: mockLoginUser as any,
+      logoutUser: vi.fn<any>() as any,
+      registerUser: vi.fn<any>() as any,
     });
 
     const wrapper = mount(LoginPage, {
